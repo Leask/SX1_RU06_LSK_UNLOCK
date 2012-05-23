@@ -1,0 +1,75 @@
+; Installation inf for the Siemens SX1 Swup USB Driver.
+;
+; (c) Copyright Siemens AG 2003
+;
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%SIEMENS%
+DriverVer=06/07/2003,1.00.00.00
+
+[SourceDisksNames]
+1="Driver folder ",,,
+
+[SourceDisksFiles]
+Siemens_Sx1Swup.sys = 1
+Siemens_Sx1Swup.inf = 1
+
+[Manufacturer]
+%MfgName% = SIEMENS
+
+[SIEMENS]
+%USB\VID_11F5&PID_0002.DeviceDesc%=Siemens_Sx1Swup.Dev, USB\VID_11F5&PID_0002
+
+
+
+;[PreCopySection]
+;HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+Siemens_Sx1Swup.Files.Ext = 10,System32\Drivers
+Siemens_Sx1Swup.Files.Inf = 10,INF
+
+[Siemens_Sx1Swup.Dev]
+CopyFiles=Siemens_Sx1Swup.Files.Ext, Siemens_Sx1Swup.Files.Inf
+AddReg=Siemens_Sx1Swup.AddReg
+
+[Siemens_Sx1Swup.Dev.NT]
+CopyFiles=Siemens_Sx1Swup.Files.Ext, Siemens_Sx1Swup.Files.Inf
+AddReg=Siemens_Sx1Swup.AddReg
+
+[Siemens_Sx1Swup.Dev.NT.Services]
+Addservice = Siemens_Sx1Swup, 0x00000002, Siemens_Sx1Swup.AddService
+
+[Siemens_Sx1Swup.AddService]
+DisplayName    = Siemens_Sx1Swup.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\Siemens_Sx1Swup.sys
+LoadOrderGroup = Base
+
+[Siemens_Sx1Swup.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,Siemens_Sx1Swup.sys
+HKLM,"System\Currentcontrolset\Services\Siemens_Sx1Swup\Parameters","MaximumTransferSize",0x10001,4096
+HKLM,"System\Currentcontrolset\Services\Siemens_Sx1Swup\Parameters","DebugLevel",0x10001,2
+HKLM,"System\Currentcontrolset\services\Siemens_Sx1Swup\Parameters","Siemens_Sx1swupUSBEnable",0x10001,1
+
+[Siemens_Sx1Swup.Files.Ext]
+Siemens_Sx1Swup.sys
+
+[Siemens_Sx1Swup.Files.Inf]
+Siemens_Sx1Swup.Inf
+
+
+;---------------------------------------------------------------;
+
+[Strings]
+SIEMENS="SIEMENS"
+MfgName="SIEMENS"
+USB\VID_11F5&PID_0002.DeviceDesc="Siemens SX1 Swup"
+Siemens_Sx1Swup.SvcDesc="Siemens SX1 Swup USB Driver"
+
